@@ -1,4 +1,4 @@
-#  Copyright (C) 2016,2017,2018 by Andy Uribe CA6JAU
+#  Copyright (C) 2016,2017,2018,2020 by Andy Uribe CA6JAU
 #  Copyright (C) 2016 by Jim McLaughlin KI6ZUM
 
 #  This program is free software; you can redistribute it and/or modify
@@ -127,6 +127,8 @@ DEFS_F4M=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F446xx -DSTM32F4_F4M -DHSE_VA
 DEFS_NUCLEO=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F446xx -DSTM32F4_NUCLEO -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
 # STM32F7 Nucleo-144 F767ZI board:
 DEFS_NUCLEO_F767=-DUSE_HAL_DRIVER -DSTM32F767xx -DSTM32F7XX -DSTM32F7_NUCLEO -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
+# STM32F7 Nucleo-144 F722ZE board:
+DEFS_NUCLEO_F722=-DUSE_HAL_DRIVER -DSTM32F722xx -DSTM32F7XX -DSTM32F7_NUCLEO -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
 # MMDVM-Pi F722 board:
 DEFS_PI_F722=-DUSE_HAL_DRIVER -DSTM32F722xx -DSTM32F7XX -DSTM32F722_PI -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
 # MMDVM-F7M F0DEI board:
@@ -162,7 +164,7 @@ CXXFLAGS=-Os -fno-exceptions -ffunction-sections -fdata-sections -fno-builtin -f
 LDFLAGS=-Os --specs=nano.specs -Wl,-Map=bin/mmdvm.map
 
 # Build Rules
-.PHONY: all release dis pi pi-f722 f4m nucleo f767 dvm drcc_nqf clean
+.PHONY: all release dis pi pi-f722 f4m nucleo f767 f722 dvm drcc_nqf clean
 
 # Default target: Nucleo-64 F446RE board
 all: nucleo
@@ -220,6 +222,12 @@ f767: CFLAGS+=$(CFLAGS_F7) $(DEFS_NUCLEO_F767)
 f767: CXXFLAGS+=$(CXXFLAGS_F7) $(DEFS_NUCLEO_F767)
 f767: LDFLAGS+=$(LDFLAGS_F767)
 f767: release_f7
+
+f722: GitVersion.h
+f722: CFLAGS+=$(CFLAGS_F7) $(DEFS_NUCLEO_F722)
+f722: CXXFLAGS+=$(CXXFLAGS_F7) $(DEFS_NUCLEO_F722)
+f722: LDFLAGS+=$(LDFLAGS_F722)
+f722: release_f7
 
 dvm: GitVersion.h
 dvm: CFLAGS+=$(CFLAGS_F4) $(DEFS_DVM)

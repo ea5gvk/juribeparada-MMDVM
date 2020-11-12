@@ -1,6 +1,6 @@
 /*
  *   Copyright (C) 2016 by Jim McLaughlin KI6ZUM
- *   Copyright (C) 2016,2017,2018 by Andy Uribe CA6JAU
+ *   Copyright (C) 2016,2017,2018,2020 by Andy Uribe CA6JAU
  *   Copyright (C) 2017,2018,2020 by Jonathan Naylor G4KLX
  *   Copyright (C) 2019,2020 by BG5HHP
  *
@@ -333,7 +333,7 @@ void CIO::interrupt()
    m_txBuffer.get(sample, control);
 
    // Send the value to the DAC
-#if defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER)
+#if (defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER)) || (defined(STM32F7_NUCLEO) && defined(STM32F7_NUCLEO_ARDUINO_HEADER))
    DAC_SetChannel2Data(DAC_Align_12b_R, sample);
 #else
    DAC_SetChannel1Data(DAC_Align_12b_R, sample);

@@ -54,6 +54,15 @@
     #endif
 
 #elif defined(STM32F7_NUCLEO)
+    #if defined(STM32F7_NUCLEO_MORPHO_HEADER)
+        #include "pins/pins_f7_nucleo_morpho.h"
+    #elif defined(STM32F7_NUCLEO_ARDUINO_HEADER)
+        #include "pins/pins_f7_nucleo_arduino.h"
+    #else
+        #error "Either STM32F7_NUCLEO_MORPHO_HEADER or STM32F7_NUCLEO_ARDUINO_HEADER need to be defined"
+    #endif
+
+#elif defined(STM32F7_NUCLEO)
     #include "pins/pins_f7_nucleo.h"
 
 #elif defined(STM32F4_DVM)

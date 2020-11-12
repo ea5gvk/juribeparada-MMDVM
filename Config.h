@@ -56,6 +56,10 @@
 // #define STM32F4_NUCLEO_MORPHO_HEADER
 // #define STM32F4_NUCLEO_ARDUINO_HEADER
 
+// For ST Nucleo-144 STM32F7XX board
+// #define STM32F7_NUCLEO_MORPHO_HEADER
+// #define STM32F7_NUCLEO_ARDUINO_HEADER
+
 // Use separate mode pins to switch external channel/filters/bandwidth for example
 // #define MODE_PINS
 

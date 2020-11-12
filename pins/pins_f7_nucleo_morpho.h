@@ -16,8 +16,8 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _PINS_F7_NUCLEO_H
-#define _PINS_F7_NUCLEO_H
+#ifndef _PINS_F7_NUCLEO_MORPHO_H
+#define _PINS_F7_NUCLEO_MORPHO_H
 
 /*
 Pin definitions for STM32F7 Nucleo boards (ST Morpho header):
