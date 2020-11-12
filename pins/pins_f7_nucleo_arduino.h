@@ -39,7 +39,7 @@ RX       PA3    analog input
 RSSI     PF10   analog input
 TX       PA5    analog output
 
-EXT_CLK  PB8    input
+EXT_CLK  PA15   input
 */
 
 #define PIN_PTT           GPIO_Pin_9
@@ -82,9 +82,9 @@ EXT_CLK  PB8    input
 #define PORT_POCSAG       GPIOG
 #define RCC_Per_POCSAG    RCC_AHB1Periph_GPIOG
 
-#define PIN_EXT_CLK       GPIO_Pin_8
-#define SRC_EXT_CLK       GPIO_PinSource8
-#define PORT_EXT_CLK      GPIOB
+#define PIN_EXT_CLK       GPIO_Pin_15
+#define SRC_EXT_CLK       GPIO_PinSource15
+#define PORT_EXT_CLK      GPIOA
 
 // ADC1
 #define PIN_RX            GPIO_Pin_3
