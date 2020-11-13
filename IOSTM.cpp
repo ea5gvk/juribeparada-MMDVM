@@ -200,19 +200,28 @@ void CIO::startInt()
    GPIO_Init(PORT_RX, &GPIO_InitStruct);
 
 #if defined(SEND_RSSI_DATA)
-   // Enable ADC2 clock
+   // Enable RSSI GPIO clock
    RCC_AHB1PeriphClockCmd(RCC_Per_RSSI, ENABLE);
-   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE);
-   // Enable ADC2 GPIO
+   // Enable RSSI GPIO
    GPIO_InitStruct.GPIO_Pin  = PIN_RSSI;
    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AN;
    GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL ;
    GPIO_Init(PORT_RSSI, &GPIO_InitStruct);
+   // Enable RSSI ADC clock
+#if defined(STM32F7_NUCLEO) && defined(STM32F7_NUCLEO_ARDUINO_HEADER)
+   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
+#else
+   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE);
+#endif
 #endif
 
    // Init ADCs in dual mode (RSSI), div clock by two
 #if defined(SEND_RSSI_DATA)
+#if defined(STM32F7_NUCLEO) && defined(STM32F7_NUCLEO_ARDUINO_HEADER)
+   ADC_CommonInitStructure.ADC_Mode             = ADC_TripleMode_RegSimult;
+#else
    ADC_CommonInitStructure.ADC_Mode             = ADC_DualMode_RegSimult;
+#endif
 #else
    ADC_CommonInitStructure.ADC_Mode             = ADC_Mode_Independent;
 #endif
@@ -221,7 +230,7 @@ void CIO::startInt()
    ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
    ADC_CommonInit(&ADC_CommonInitStructure);
 
-   // Init ADC1 and ADC2: 12bit, single-conversion
+   // Init ADCs: 12bit, single-conversion
    ADC_InitStructure.ADC_Resolution           = ADC_Resolution_12b;
    ADC_InitStructure.ADC_ScanConvMode         = DISABLE;
    ADC_InitStructure.ADC_ContinuousConvMode   = DISABLE;
@@ -239,6 +248,15 @@ void CIO::startInt()
    ADC_Cmd(ADC1, ENABLE);
 
 #if defined(SEND_RSSI_DATA)
+#if defined(STM32F7_NUCLEO) && defined(STM32F7_NUCLEO_ARDUINO_HEADER)
+   ADC_Init(ADC3, &ADC_InitStructure);
+
+   ADC_EOCOnEachRegularChannelCmd(ADC3, ENABLE);
+   ADC_RegularChannelConfig(ADC3, PIN_RSSI_CH, 1, ADC_SampleTime_3Cycles);
+
+   // Enable ADC3
+   ADC_Cmd(ADC3, ENABLE);
+#else
    ADC_Init(ADC2, &ADC_InitStructure);
 
    ADC_EOCOnEachRegularChannelCmd(ADC2, ENABLE);
@@ -246,6 +264,7 @@ void CIO::startInt()
 
    // Enable ADC2
    ADC_Cmd(ADC2, ENABLE);
+#endif
 #endif
 
    // Init the DAC
@@ -339,14 +358,18 @@ void CIO::interrupt()
    DAC_SetChannel1Data(DAC_Align_12b_R, sample);
 #endif
 
-   // Read value from ADC1 and ADC2
+   // Read value from ADCs
    if ((ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET)) {
       // shouldn't be still in reset at this point so null the sample value?
       sample  = 0U;
    } else {
       sample  = ADC_GetConversionValue(ADC1);
 #if defined(SEND_RSSI_DATA)
+#if defined(STM32F7_NUCLEO) && defined(STM32F7_NUCLEO_ARDUINO_HEADER)
+      rawRSSI = ADC_GetConversionValue(ADC3);
+#else
       rawRSSI = ADC_GetConversionValue(ADC2);
+#endif
 #endif
    }
 
