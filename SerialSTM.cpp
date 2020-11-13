@@ -34,7 +34,7 @@ USART3 - TXD PD8  - RXD PD9  (Nucleo144 F767ZI board)
 
 - Serial repeater:
 USART1 - TXD PA9  - RXD PA10 (Nucleo with Arduino header)
-UART5  - TXD PC12 - RXD PD2 (Discovery, MMDVM-Pi, MMDVM-Pi F722 board, MMDVM-F4M board, STM32F722-F7M board, STM32F4-DVM board, Nucleo64 with Morpho header and Nucleo144 F767ZI, MMDVM_RPT_Hat BG4TGO/BG5HHP board)
+UART5  - TXD PC12 - RXD PD2 (Discovery, MMDVM-Pi, MMDVM-Pi F722 board, MMDVM-F4M board, STM32F722-F7M board, STM32F4-DVM board, Nucleo-64 with Morpho header and Nucleo-144, MMDVM_RPT_Hat BG4TGO/BG5HHP board)
 */
 
 #if defined(STM32F4XX) || defined(STM32F7XX)
